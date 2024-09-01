@@ -1,4 +1,5 @@
 package data.dto;
+import data.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +7,7 @@ import lombok.NoArgsConstructor;
 import java.sql.Timestamp;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import data.entity.BoardEntity;
+import org.hibernate.annotations.CreationTimestamp;
 
 
 @Data
@@ -15,20 +17,22 @@ import data.entity.BoardEntity;
 public class BoardDto {
 
     private int id;
-    private int user_id;
+    private UserEntity userId;
     private String title;
     private String content;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
+    private Timestamp createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "UTC")
+    private Timestamp updatedAt;
 
     public static BoardDto toBoardDto(BoardEntity entity){
         return BoardDto.builder()
                 .id(entity.getId())
-                .user_id(entity.getUserid())
+                .userId(entity.getUserid())
                 .title(entity.getTitle())
                 .content(entity.getContent())
-                .created_at(entity.getCreatedat())
-                .updated_at(entity.getUpdatedat())
+                .createdAt(entity.getCreatedat())
+                .updatedAt(entity.getUpdatedat())
                 .build();
     }
 }

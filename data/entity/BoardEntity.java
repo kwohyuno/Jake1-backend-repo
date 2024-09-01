@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Timestamp;
 
@@ -20,13 +21,15 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int Id;
-    @Column(name = "user_id")
-    private int Userid;
+    @ManyToOne
+    @JoinColumn(name="user_id",referencedColumnName="userid",nullable=false)
+    private UserEntity Userid;
     @Column(name = "title")
     private String Title;
     @Column(name = "content")
     private String Content;
     @Column(name = "created_at")
+    @CreationTimestamp
     private Timestamp Createdat;
     @Column(name = "updated_at")
     private Timestamp Updatedat;
@@ -36,9 +39,9 @@ public class BoardEntity {
                 .Content(boardDto.getContent())
                 .Title(boardDto.getTitle())
                 .Id(boardDto.getId())
-                .Userid(boardDto.getUser_id())
-                .Createdat(boardDto.getCreated_at())
-                .Updatedat(boardDto.getUpdated_at())
+                .Userid(boardDto.getUserId())
+                .Createdat(boardDto.getCreatedAt())
+                .Updatedat(boardDto.getUpdatedAt())
                 .build();
     }
 }
